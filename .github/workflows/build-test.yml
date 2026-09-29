@@ -26,6 +26,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: false
+          load: true
           tags: claude-vetter:ci
           cache-from: type=gha
           cache-to: type=gha,mode=max
