@@ -56,12 +56,11 @@ author's reputation, and writes up what it found.
 
 ## How it works
 
-<p align="center">
-  <img src="docs/how-it-works.svg" alt="How skill-quarantine works: your machine launches a Docker sandbox, where the agent clones and pins the repo, runs scanners, reviews every file, checks purpose and reputation, gives a verdict, and waits for your explicit yes." width="720">
-</p>
-
+You run `./skill-quarantine.sh` on your machine. It starts a **disposable
+Docker sandbox** and loads the agent's instructions into it **read-only**.
 Nothing else from your machine is visible to the sandbox: no home directory,
-no projects, no SSH keys, no cloud credentials.
+no projects, no SSH keys, no cloud credentials. Inside the sandbox, the
+agent works through these steps:
 
 1. **Clone & pin.** Clones the repo into the sandbox's temporary `/work` and
    records the exact commit SHA. Everything after this refers to that commit.
