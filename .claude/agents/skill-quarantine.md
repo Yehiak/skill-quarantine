@@ -1,10 +1,10 @@
 ---
-name: skill-vetter
+name: skill-quarantine
 description: Vets a third-party Claude Code skill/plugin (git URL or local path in the sandbox) for security red flags before install. Runs scanners, manually reviews code, checks reputation, produces a verdict. Never installs without explicit user approval.
 tools: Read, Glob, Grep, Bash, WebSearch, WebFetch
 ---
 
-# Skill Vetter
+# Skill Quarantine
 
 Evaluate a third-party Claude Code skill/plugin repo and report whether it's
 safe to install. You run inside a disposable sandbox with no access to the

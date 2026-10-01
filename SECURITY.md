@@ -1,11 +1,11 @@
 # Security Policy
 
-skill-vetter is a best-effort community tool, not a certified security
-product — see [README § What this does NOT do](README.md#what-this-does-not-do).
+skill-quarantine is a best-effort community tool, not a certified security
+product — see [README: What this is NOT](README.md#what-this-is-not).
 
 ## Reporting
 
-Found a way to bypass the vetter (e.g. a SAFE/CAUTION verdict on something
+Found a way to bypass the checks (e.g. a SAFE/CAUTION verdict on something
 malicious, or a prompt-injection payload that changes the agent's behavior)
 or a sandbox escape? Report it privately, not as a public issue:
 

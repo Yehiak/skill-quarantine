@@ -1,4 +1,4 @@
-# run-vetter.sh's bind-mount workspace — created at run time, contains
-# whatever repos get scanned plus a synced copy of the agent config.
-# Never commit scanned third-party code.
+# Older versions of skill-quarantine.sh bind-mounted ./scratch as the scan
+# workspace. Current versions use a temporary Docker volume instead, but keep
+# this ignored so leftover scanned third-party code is never committed.
 /scratch/

@@ -2,7 +2,7 @@ name: Build sandbox image
 
 # Runs on every push and PR so a broken Dockerfile (bad pin, missing
 # package, syntax error) is caught before it ships to users, instead of
-# failing silently the first time someone runs ./run-vetter.sh.
+# failing silently the first time someone runs ./skill-quarantine.sh.
 
 on:
   push:
@@ -27,13 +27,13 @@ jobs:
           file: ./Dockerfile
           push: false
           load: true
-          tags: claude-vetter:ci
+          tags: skill-quarantine:ci
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
       - name: Smoke-test installed tools
         run: |
-          docker run --rm --entrypoint /bin/bash claude-vetter:ci -lc "
+          docker run --rm --entrypoint /bin/bash skill-quarantine:ci -lc "
             set -e
             echo '--- gitleaks ---'; gitleaks version
             echo '--- semgrep ---'; semgrep --version
@@ -41,3 +41,10 @@ jobs:
             echo '--- git ---'; git --version
             echo '--- claude ---'; claude --version
           "
+
+      - name: Verify sandbox isolation
+        # Same flags as a real session; fails the build if the container can
+        # see host paths, can rewrite the agent, runs as root, or keeps caps.
+        env:
+          SKILL_QUARANTINE_IMAGE: skill-quarantine:ci
+        run: ./skill-quarantine.sh --check

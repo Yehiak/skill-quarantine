@@ -2,7 +2,7 @@
 
 Real transcript from vetting
 [`anthropics/skills`](https://github.com/anthropics/skills), specifically
-`skills/slack-gif-creator`, inside the built `claude-vetter` sandbox. Repo
+`skills/slack-gif-creator`, inside the built `skill-quarantine` sandbox. Repo
 cloned with `git clone --depth 50 https://github.com/anthropics/skills.git`.
 
 ## Scanner output (verbatim excerpts)

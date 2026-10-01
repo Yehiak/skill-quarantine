@@ -1,0 +1,4 @@
+# Shell scripts must keep LF endings or bash fails inside the container/on
+# Linux and macOS, even when checked out on Windows with autocrlf.
+*.sh text eol=lf
+Dockerfile text eol=lf
