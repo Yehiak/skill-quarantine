@@ -70,28 +70,28 @@ your machine
                              v
 Docker sandbox (deleted on exit)
 +--------------------------------------------------------+
-| claude  ->  skill-quarantine subagent                  |
+|          claude  ->  skill-quarantine subagent         |
 |                            |                           |
 |                            v                           |
-| 1. clone repo, pin commit SHA                          |
+|              1. clone repo, pin commit SHA             |
 |                            |                           |
 |                            v                           |
-| 2. gitleaks, semgrep, npm audit, pip-audit             |
+|       2. gitleaks, semgrep, npm audit, pip-audit       |
 |                            |                           |
 |                            v                           |
-| 3. manual review of every file                         |
+|             3. manual review of every file             |
 |                            |                           |
 |                            v                           |
-| 4. compare behavior vs. stated purpose                 |
+|         4. compare behavior vs. stated purpose         |
 |                            |                           |
 |                            v                           |
-| 5. reputation check (web)                              |
+|                5. reputation check (web)               |
 |                            |                           |
 |                            v                           |
-| 6. verdict + "not checked" list                        |
+|             6. verdict + "not checked" list            |
 |                            |                           |
 |                            v                           |
-| 7. waits for your explicit "yes"                       |
+|            7. waits for your explicit "yes"            |
 +--------------------------------------------------------+
 ```
 
