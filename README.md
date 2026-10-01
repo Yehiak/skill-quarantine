@@ -56,11 +56,46 @@ author's reputation, and writes up what it found.
 
 ## How it works
 
-You run `./skill-quarantine.sh` on your machine. It starts a **disposable
-Docker sandbox** and loads the agent's instructions into it **read-only**.
-Nothing else from your machine is visible to the sandbox: no home directory,
-no projects, no SSH keys, no cloud credentials. Inside the sandbox, the
-agent works through these steps:
+```text
+your machine
++--------------------------------------------------------+
+| ./skill-quarantine.sh                                  |
+| .claude/agents + .claude/commands (read-only)          |
+|                                                        |
+| nothing else is mounted: no home dir, no projects,     |
+| no SSH keys, no cloud creds                            |
++--------------------------------------------------------+
+                             |
+                             | launches
+                             v
+Docker sandbox (deleted on exit)
++--------------------------------------------------------+
+| claude  ->  skill-quarantine subagent                  |
+|                            |                           |
+|                            v                           |
+| 1. clone repo, pin commit SHA                          |
+|                            |                           |
+|                            v                           |
+| 2. gitleaks, semgrep, npm audit, pip-audit             |
+|                            |                           |
+|                            v                           |
+| 3. manual review of every file                         |
+|                            |                           |
+|                            v                           |
+| 4. compare behavior vs. stated purpose                 |
+|                            |                           |
+|                            v                           |
+| 5. reputation check (web)                              |
+|                            |                           |
+|                            v                           |
+| 6. verdict + "not checked" list                        |
+|                            |                           |
+|                            v                           |
+| 7. waits for your explicit "yes"                       |
++--------------------------------------------------------+
+```
+
+In more detail, the agent works through these steps inside the sandbox:
 
 1. **Clone & pin.** Clones the repo into the sandbox's temporary `/work` and
    records the exact commit SHA. Everything after this refers to that commit.
