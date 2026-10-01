@@ -36,6 +36,7 @@ Commit scanned: 3f9c2e1...
 - [Usage](#usage)
 - [Security model](#security-model)
 - [What this is NOT](#what-this-is-not)
+- [Related projects](#related-projects)
 - [Project layout](#project-layout)
 - [Contributing](#contributing)
 - [Reporting a vulnerability](#reporting-a-vulnerability)
@@ -228,6 +229,34 @@ Know these before you rely on it:
 
 The software is provided "as is", without warranty of any kind. See
 [LICENSE](LICENSE).
+
+## Related projects
+
+Several other tools also check agent skills before you install them. Most
+are static scanners that you run directly on your machine. skill-quarantine
+differs in how it works, not in being the only option:
+
+- It reads and scans the skill **inside a disposable Docker sandbox**, so the
+  code never lands on your disk.
+- A Claude agent **reviews every file by hand** against a written checklist,
+  and checks the author's reputation, on top of the scanners.
+- Verdicts are **tied to one exact commit**, and nothing is installed without
+  your explicit "yes".
+
+The trade-offs: it needs Docker and a Claude login, it uses your Claude
+usage, it is slower than a plain scanner, and the AI review can vary between
+runs.
+
+Other projects worth a look (descriptions are from their own pages; we
+haven't audited them):
+
+- [claude-code-skill-security-scan](https://github.com/Zavelinski/claude-code-skill-security-scan)
+- [skillvet](https://github.com/XINMurat/skillvet)
+- [SkillGuard](https://github.com/epistemedeus/skillguard)
+- [claude-skill-antivirus](https://github.com/claude-world/claude-skill-antivirus)
+- [NVIDIA SkillSpector](https://github.com/nvidia/skillspector)
+- [Cisco skill-scanner](https://github.com/cisco-ai-defense/skill-scanner)
+- [Snyk Agent Scan – Skill Inspector](https://labs.snyk.io/resources/agent-scan-skill-inspector/)
 
 ## Project layout
 
