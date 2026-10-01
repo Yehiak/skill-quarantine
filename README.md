@@ -57,22 +57,31 @@ author's reputation, and writes up what it found.
 ## How it works
 
 ```mermaid
-flowchart LR
-    subgraph host["Your machine"]
-        run["./skill-quarantine.sh"]
-        cfg[".claude/agents and .claude/commands<br/>(mounted read-only)"]
+flowchart TD
+    subgraph host["YOUR MACHINE"]
+        run["<b>./skill-quarantine.sh</b><br/>launches the sandbox"]
+        cfg["<b>.claude/agents + commands</b><br/>mounted read-only"]
     end
-    subgraph box["Docker sandbox (deleted on exit)"]
-        direction TB
-        a["Claude Code + skill-quarantine agent"] --> b["Clone repo, pin commit SHA"]
-        b --> c["Scanners: gitleaks, semgrep,<br/>npm audit, pip-audit"]
-        c --> d["Manual review of every file"]
-        d --> e["Purpose check + reputation check"]
-        e --> f["Verdict + not-checked list"]
-        f --> g["Waits for your explicit yes"]
+
+    subgraph box["DOCKER SANDBOX - deleted on exit"]
+        s1["<b>1. Clone and pin</b><br/>exact commit SHA"]
+        s2["<b>2. Run scanners</b><br/>gitleaks, semgrep, npm audit, pip-audit"]
+        s3["<b>3. Review every file</b><br/>network, secrets, obfuscation, hooks"]
+        s4["<b>4. Check purpose and reputation</b><br/>does behavior match what it claims?"]
+        s5["<b>5. Verdict</b><br/>SAFE / CAUTION / BLOCK + not-checked list"]
+        s6["<b>6. Wait for your explicit yes</b><br/>never installs on BLOCK"]
+        s1 --> s2 --> s3 --> s4 --> s5 --> s6
     end
-    run -- launches --> a
-    cfg -. read-only .-> a
+
+    run --> s1
+    cfg -.-> s1
+
+    classDef hostNode fill:#dbeafe,stroke:#2563eb,stroke-width:2px,color:#0f172a
+    classDef step fill:#dcfce7,stroke:#16a34a,stroke-width:2px,color:#0f172a
+    classDef verdict fill:#fef3c7,stroke:#d97706,stroke-width:2px,color:#0f172a
+    class run,cfg hostNode
+    class s1,s2,s3,s4 step
+    class s5,s6 verdict
 ```
 
 Nothing else from your machine is visible to the sandbox: no home directory,
