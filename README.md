@@ -56,33 +56,9 @@ author's reputation, and writes up what it found.
 
 ## How it works
 
-```mermaid
-flowchart TD
-    subgraph host["YOUR MACHINE"]
-        run["<b>./skill-quarantine.sh</b><br/>launches the sandbox"]
-        cfg["<b>.claude/agents + commands</b><br/>mounted read-only"]
-    end
-
-    subgraph box["DOCKER SANDBOX - deleted on exit"]
-        s1["<b>1. Clone and pin</b><br/>exact commit SHA"]
-        s2["<b>2. Run scanners</b><br/>gitleaks, semgrep, npm audit, pip-audit"]
-        s3["<b>3. Review every file</b><br/>network, secrets, obfuscation, hooks"]
-        s4["<b>4. Check purpose and reputation</b><br/>does behavior match what it claims?"]
-        s5["<b>5. Verdict</b><br/>SAFE / CAUTION / BLOCK + not-checked list"]
-        s6["<b>6. Wait for your explicit yes</b><br/>never installs on BLOCK"]
-        s1 --> s2 --> s3 --> s4 --> s5 --> s6
-    end
-
-    run --> s1
-    cfg -.-> s1
-
-    classDef hostNode fill:#dbeafe,stroke:#2563eb,stroke-width:2px,color:#0f172a
-    classDef step fill:#dcfce7,stroke:#16a34a,stroke-width:2px,color:#0f172a
-    classDef verdict fill:#fef3c7,stroke:#d97706,stroke-width:2px,color:#0f172a
-    class run,cfg hostNode
-    class s1,s2,s3,s4 step
-    class s5,s6 verdict
-```
+<p align="center">
+  <img src="docs/how-it-works.svg" alt="How skill-quarantine works: your machine launches a Docker sandbox, where the agent clones and pins the repo, runs scanners, reviews every file, checks purpose and reputation, gives a verdict, and waits for your explicit yes." width="720">
+</p>
 
 Nothing else from your machine is visible to the sandbox: no home directory,
 no projects, no SSH keys, no cloud credentials.
