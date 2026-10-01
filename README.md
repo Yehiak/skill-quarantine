@@ -56,19 +56,27 @@ author's reputation, and writes up what it found.
 
 ## How it works
 
+```mermaid
+flowchart LR
+    subgraph host["Your machine"]
+        run["./skill-quarantine.sh"]
+        cfg[".claude/agents and .claude/commands<br/>(mounted read-only)"]
+    end
+    subgraph box["Docker sandbox (deleted on exit)"]
+        direction TB
+        a["Claude Code + skill-quarantine agent"] --> b["Clone repo, pin commit SHA"]
+        b --> c["Scanners: gitleaks, semgrep,<br/>npm audit, pip-audit"]
+        c --> d["Manual review of every file"]
+        d --> e["Purpose check + reputation check"]
+        e --> f["Verdict + not-checked list"]
+        f --> g["Waits for your explicit yes"]
+    end
+    run -- launches --> a
+    cfg -. read-only .-> a
 ```
-your machine                         Docker sandbox (deleted on exit)
-────────────                         ──────────────────────────────────────
-./skill-quarantine.sh  ──── launches ───▶  claude  ──▶  skill-quarantine subagent
-                                                    1. clone repo, pin commit SHA
-  .claude/agents   ── read-only ──▶                 2. gitleaks, semgrep,
-  .claude/commands ── read-only ──▶                    npm audit, pip-audit
-                                                    3. manual review of every file
-  (nothing else is mounted:                         4. compare behavior vs. stated purpose
-   no home dir, no projects,                        5. reputation check (web)
-   no SSH keys, no cloud creds)                     6. verdict + "not checked" list
-                                                    7. waits for your explicit "yes"
-```
+
+Nothing else from your machine is visible to the sandbox: no home directory,
+no projects, no SSH keys, no cloud credentials.
 
 1. **Clone & pin.** Clones the repo into the sandbox's temporary `/work` and
    records the exact commit SHA. Everything after this refers to that commit.
